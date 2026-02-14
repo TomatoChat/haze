@@ -1,0 +1,256 @@
+{
+  "modelId": {
+    "description": "The specific AI model identifier to use",
+    "type": "string",
+    "isTranslatable": false,
+    "valueMap": null,
+    "targets": {
+      "claude": {
+        "key": "model",
+        "type": "string",
+        "default": "claude-3-7-sonnet"
+      },
+      "gemini": {
+        "key": "general.model",
+        "type": "string",
+        "default": "gemini-2.0-flash"
+      }
+    }
+  },
+  "autoUpdate": {
+    "description": "Whether the CLI tool should update itself automatically",
+    "type": "boolean",
+    "isTranslatable": true,
+    "valueMap": {
+      "claude": {
+        "true": "stable",
+        "false": "none"
+      },
+      "gemini": {
+        "true": true,
+        "false": false
+      }
+    },
+    "targets": {
+      "claude": {
+        "key": "autoUpdatesChannel",
+        "type": "string",
+        "default": "stable"
+      },
+      "gemini": {
+        "key": "general.enableAutoUpdate",
+        "type": "boolean",
+        "default": true
+      }
+    }
+  },
+  "sessionRetentionDays": {
+    "description": "How many days to keep conversation history before purging",
+    "type": "integer",
+    "isTranslatable": true,
+    "valueMap": {
+      "claude": null,
+      "gemini": "{value}d"
+    },
+    "targets": {
+      "claude": {
+        "key": "cleanupPeriodDays",
+        "type": "integer",
+        "default": 30
+      },
+      "gemini": {
+        "key": "general.sessionRetention.maxAge",
+        "type": "string",
+        "default": "30d"
+      }
+    }
+  },
+  "approvalMode": {
+    "description": "How the agent handles tool execution (permission level)",
+    "type": "string",
+    "isTranslatable": true,
+    "valueMap": {
+      "claude": {
+        "ask": "ask",
+        "automatic": "acceptEdits",
+        "planOnly": "plan"
+      },
+      "gemini": {
+        "ask": "default",
+        "automatic": "auto_edit",
+        "planOnly": "plan"
+      }
+    },
+    "targets": {
+      "claude": {
+        "key": "permissions.defaultMode",
+        "type": "string",
+        "default": "ask"
+      },
+      "gemini": {
+        "key": "general.defaultApprovalMode",
+        "type": "string",
+        "default": "default"
+      }
+    }
+  },
+  "customEnvironmentVariables": {
+    "description": "Dictionary of environment variables to inject into the agent's shell",
+    "type": "object",
+    "isTranslatable": true,
+    "valueMap": null,
+    "targets": {
+      "claude": {
+        "key": "env",
+        "type": "object",
+        "default": {}
+      },
+      "gemini": {
+        "key": "env",
+        "type": "object",
+        "default": {}
+      }
+    }
+  },
+  "gitAttribution": {
+    "description": "Configuration for adding AI signatures to git commits. To disable, set values to empty strings.",
+    "type": "object",
+    "isTranslatable": false,
+    "properties": {
+      "commit": { "type": "string" },
+      "pr": { "type": "string" }
+    },
+    "valueMap": null,
+    "targets": {
+      "claude": {
+        "key": "attribution",
+        "type": "object",
+        "default": {
+          "commit": "🤖 Generated with Claude Code",
+          "pr": "🤖 Generated with Claude Code"
+        }
+      },
+      "gemini": {
+        "key": null,
+        "note": "Gemini CLI does not support an attribution object."
+      }
+    }
+  },
+  "sandboxEnabled": {
+    "description": "Run tools in a restricted Docker/Container sandbox",
+    "type": "boolean",
+    "isTranslatable": false,
+    "valueMap": {
+      "gemini": {
+        "true": true,
+        "false": false
+      }
+    },
+    "targets": {
+      "gemini": {
+        "key": "tools.sandbox",
+        "type": "boolean",
+        "default": false
+      },
+      "claude": {
+        "key": null,
+        "note": "Claude uses complex allow/deny rules, not a global boolean."
+      }
+    }
+  },
+  "theme": {
+    "description": "Color scheme for the terminal UI",
+    "type": "string",
+    "isTranslatable": true,
+    "valueMap": {
+      "claude": {
+        "dark": "dark",
+        "light": "light",
+        "dracula": "dark"
+      },
+      "gemini": {
+        "dark": "Dark",
+        "light": "Light",
+        "dracula": "Dracula"
+      }
+    },
+    "targets": {
+      "claude": {
+        "key": "theme",
+        "type": "string",
+        "default": "dark"
+      },
+      "gemini": {
+        "key": "ui.theme",
+        "type": "string",
+        "default": "Dark"
+      }
+    }
+  },
+  "vimMode": {
+    "description": "Enable VIM keybindings in the input box",
+    "type": "boolean",
+    "isTranslatable": false,
+    "valueMap": {
+      "gemini": {
+        "true": true,
+        "false": false
+      }
+    },
+    "targets": {
+      "gemini": {
+        "key": "general.vimMode",
+        "type": "boolean",
+        "default": false
+      },
+      "claude": {
+        "key": null
+      }
+    }
+  },
+  "verboseLogging": {
+    "description": "Show detailed output of tool executions (thinking process)",
+    "type": "boolean",
+    "isTranslatable": true,
+    "valueMap": {
+      "claude": {
+        "true": true,
+        "false": false
+      },
+      "gemini": {
+        "true": "full",
+        "false": "off"
+      }
+    },
+    "targets": {
+      "claude": {
+        "key": "verbose",
+        "type": "boolean",
+        "default": false
+      },
+      "gemini": {
+        "key": "ui.inlineThinkingMode",
+        "type": "string",
+        "default": "off"
+      }
+    }
+  },
+  "preferredEditor": {
+    "description": "Command to open files (e.g. 'code', 'vim', 'nano')",
+    "type": "string",
+    "isTranslatable": true,
+    "valueMap": null,
+    "targets": {
+      "claude": {
+        "key": "env.EDITOR",
+        "type": "string",
+        "default": "code"
+      },
+      "gemini": {
+        "key": "general.preferredEditor",
+        "type": "string",
+        "default": "code"
+      }
+    }
+  }
+}
