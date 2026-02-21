@@ -14,6 +14,11 @@
         "key": "general.model",
         "type": "string",
         "default": "gemini-2.0-flash"
+      },
+      "codex": {
+        "key": "model",
+        "type": "string",
+        "default": "o4-mini"
       }
     }
   },
@@ -29,6 +34,10 @@
       "gemini": {
         "true": true,
         "false": false
+      },
+      "codex": {
+        "true": true,
+        "false": false
       }
     },
     "targets": {
@@ -41,6 +50,11 @@
         "key": "general.enableAutoUpdate",
         "type": "boolean",
         "default": true
+      },
+      "codex": {
+        "key": "check_for_update_on_startup",
+        "type": "boolean",
+        "default": true
       }
     }
   },
@@ -50,7 +64,8 @@
     "isTranslatable": true,
     "valueMap": {
       "claude": null,
-      "gemini": "{value}d"
+      "gemini": "{value}d",
+      "codex": null
     },
     "targets": {
       "claude": {
@@ -62,6 +77,10 @@
         "key": "general.sessionRetention.maxAge",
         "type": "string",
         "default": "30d"
+      },
+      "codex": {
+        "key": null,
+        "note": "Codex CLI does not support a time-based session retention policy. History persistence is controlled via the [history] table."
       }
     }
   },
@@ -79,6 +98,11 @@
         "ask": "default",
         "automatic": "auto_edit",
         "planOnly": "plan"
+      },
+      "codex": {
+        "ask": "on-request",
+        "automatic": "never",
+        "planOnly": "on-request"
       }
     },
     "targets": {
@@ -91,6 +115,12 @@
         "key": "general.defaultApprovalMode",
         "type": "string",
         "default": "default"
+      },
+      "codex": {
+        "key": "approval_policy",
+        "type": "string",
+        "default": "on-request",
+        "note": "Codex values: untrusted, on-failure, on-request, never. planOnly maps to on-request; enable Plan mode separately via the collaboration_modes feature flag."
       }
     }
   },
@@ -107,6 +137,11 @@
       },
       "gemini": {
         "key": "env",
+        "type": "object",
+        "default": {}
+      },
+      "codex": {
+        "key": "shell_environment_policy.set",
         "type": "object",
         "default": {}
       }
@@ -133,6 +168,12 @@
       "gemini": {
         "key": null,
         "note": "Gemini CLI does not support an attribution object."
+      },
+      "codex": {
+        "key": "commit_attribution",
+        "type": "string",
+        "default": null,
+        "note": "Codex only supports a single commit co-author string. Only the 'commit' field is mapped; 'pr' has no equivalent."
       }
     }
   },
@@ -144,6 +185,10 @@
       "gemini": {
         "true": true,
         "false": false
+      },
+      "codex": {
+        "true": "workspace-write",
+        "false": "danger-full-access"
       }
     },
     "targets": {
@@ -155,6 +200,12 @@
       "claude": {
         "key": null,
         "note": "Claude uses complex allow/deny rules, not a global boolean."
+      },
+      "codex": {
+        "key": "sandbox_mode",
+        "type": "string",
+        "default": "workspace-write",
+        "note": "Codex sandbox_mode values: read-only, workspace-write, danger-full-access. true maps to workspace-write (sandboxed with file write access); false maps to danger-full-access (no sandbox)."
       }
     }
   },
@@ -184,6 +235,10 @@
         "key": "ui.theme",
         "type": "string",
         "default": "Dark"
+      },
+      "codex": {
+        "key": null,
+        "note": "Codex CLI does not expose a theme configuration option."
       }
     }
   },
@@ -205,6 +260,10 @@
       },
       "claude": {
         "key": null
+      },
+      "codex": {
+        "key": null,
+        "note": "Codex CLI does not support a vim mode configuration option."
       }
     }
   },
@@ -220,6 +279,10 @@
       "gemini": {
         "true": "full",
         "false": "off"
+      },
+      "codex": {
+        "true": true,
+        "false": false
       }
     },
     "targets": {
@@ -232,6 +295,11 @@
         "key": "ui.inlineThinkingMode",
         "type": "string",
         "default": "off"
+      },
+      "codex": {
+        "key": "show_raw_agent_reasoning",
+        "type": "boolean",
+        "default": false
       }
     }
   },
@@ -239,7 +307,13 @@
     "description": "Command to open files (e.g. 'code', 'vim', 'nano')",
     "type": "string",
     "isTranslatable": true,
-    "valueMap": null,
+    "valueMap": {
+      "codex": {
+        "code": "vscode",
+        "cursor": "cursor",
+        "windsurf": "windsurf"
+      }
+    },
     "targets": {
       "claude": {
         "key": "env.EDITOR",
@@ -250,6 +324,12 @@
         "key": "general.preferredEditor",
         "type": "string",
         "default": "code"
+      },
+      "codex": {
+        "key": "file_opener",
+        "type": "string",
+        "default": "vscode",
+        "note": "Codex only supports an enum of known editors: vscode, cursor, windsurf. Arbitrary editor commands are not supported."
       }
     }
   }
