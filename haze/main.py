@@ -6,13 +6,13 @@ rather than one at a time.
 
 import sys
 
-from haze.routes.align_agents import main as align_agents
-from haze.routes.align_docs import main as align_docs
+from haze.routes.align_agents import align_agents
+from haze.routes.align_docs import align_docs
 
 
 def main() -> int:
     rc_agents = align_agents()
-    rc_docs   = align_docs()
+    rc_docs = align_docs()
     return 1 if (rc_agents or rc_docs) else 0
 
 

@@ -26,7 +26,7 @@ from haze.helpers.git_add import git_add
 from haze.helpers.log import info, err
 
 
-def main() -> int:
+def align_docs() -> int:
     doc_paths = find_doc_files()
 
     if len(doc_paths) < 2:

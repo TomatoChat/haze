@@ -13,20 +13,25 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from haze.helpers.read_config import read_config, AGENT_CONFIG
-from haze.helpers.write_config import write_config
-from haze.helpers.get_nested import get_nested
-from haze.helpers.set_nested import set_nested
-from haze.helpers.reverse_translate import reverse_translate
-from haze.helpers.forward_translate import forward_translate
-from haze.helpers.stable_key import stable_key
-from haze.helpers.git_add import git_add
-from haze.helpers.log import info, warn, err
+from haze.helpers import (
+    AGENT_CONFIG,
+    err,
+    forward_translate,
+    get_nested,
+    git_add,
+    info,
+    read_config,
+    reverse_translate,
+    set_nested,
+    stable_key,
+    warn,
+    write_config,
+)
 
 SETTINGS_MAP_PATH = Path(__file__).resolve().parent.parent / "settings_map.json"
 
 
-def main() -> int:
+def align_agents() -> int:
     if not SETTINGS_MAP_PATH.exists():
         warn(f"settings_map.json not found at {SETTINGS_MAP_PATH}. Skipping.")
         return 0
@@ -34,7 +39,9 @@ def main() -> int:
     with SETTINGS_MAP_PATH.open(encoding="utf-8") as fh:
         settings: dict[str, dict] = json.load(fh)
 
-    configs: dict[str, dict[str, Any]] = {agent: read_config(agent) for agent in AGENT_CONFIG}
+    configs: dict[str, dict[str, Any]] = {
+        agent: read_config(agent) for agent in AGENT_CONFIG
+    }
 
     conflicts: list[str] = []
     modified: set[str] = set()
@@ -58,7 +65,9 @@ def main() -> int:
             if ok2:
                 found[agent] = canonical
             else:
-                warn(f"'{setting_name}': cannot reverse-map {agent} value {raw!r} — skipping.")
+                warn(
+                    f"'{setting_name}': cannot reverse-map {agent} value {raw!r} — skipping."
+                )
 
         if not found:
             continue
@@ -88,7 +97,9 @@ def main() -> int:
                 modified.add(agent)
                 info(f"  Set '{setting_name}' on {agent}: {raw_val!r}")
             else:
-                warn(f"'{setting_name}': cannot forward-map {agreed!r} → {agent}. Skipping.")
+                warn(
+                    f"'{setting_name}': cannot forward-map {agreed!r} → {agent}. Skipping."
+                )
 
     # ── write + re-stage ──────────────────────────────────────────────────────
     for agent in sorted(modified):
@@ -99,7 +110,9 @@ def main() -> int:
     # ── report ────────────────────────────────────────────────────────────────
     if conflicts:
         print(file=sys.stderr)
-        err(f"{len(conflicts)} conflict(s) in agent configs. Resolve before committing:\n")
+        err(
+            f"{len(conflicts)} conflict(s) in agent configs. Resolve before committing:\n"
+        )
         for block in conflicts:
             print(block, file=sys.stderr)
         print(file=sys.stderr)
